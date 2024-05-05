@@ -12,8 +12,15 @@ struct TodosListView: View {
     
     @Environment (\.modelContext) var context
     @State private var showCreate = false
-    @Query private var items: [TodoItemModel]
-    
+    @State private var editTodo: TodoItemModel?
+
+    @Query(
+        filter: #Predicate<TodoItemModel> { todo in
+        !todo.isCompleted
+    },
+        sort: \.timestamp,
+        order: .reverse
+    ) private var items: [TodoItemModel]
     var body: some View {
         
         NavigationStack {
@@ -54,6 +61,12 @@ struct TodosListView: View {
                         .buttonStyle(.plain)
                         
                     }
+                    .onTapGesture(perform: {
+                        withAnimation {
+                            editTodo = item
+                        }
+                    })
+                    
                     .swipeActions {
                         Button(role: .destructive) {
                             withAnimation {
@@ -83,7 +96,15 @@ struct TodosListView: View {
                 }
                 .presentationDetents([.medium])
             })
-            
+            .sheet(item: $editTodo) {
+                editTodo = nil
+            } content: { item in
+                NavigationStack {
+                    UpdateTodosView(item: item)
+                }
+                .presentationDetents([.medium])
+
+            }
         }
     }
 }
