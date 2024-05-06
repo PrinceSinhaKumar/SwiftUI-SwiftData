@@ -11,85 +11,100 @@ import SwiftData
 struct TodosListView: View {
     
     @Environment (\.modelContext) var context
-    @State private var showCreate = false
+    @State private var showCreateTodo = false
+    @State private var showCreateCategory = false
     @State private var editTodo: TodoItemModel?
 
-    @Query(
-        filter: #Predicate<TodoItemModel> { todo in
-        !todo.isCompleted
-    },
-        sort: \.timestamp,
-        order: .reverse
-    ) private var items: [TodoItemModel]
+    @Query private var items: [TodoItemModel]
     var body: some View {
         
         NavigationStack {
             List {
-                ForEach(items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            
-                            if item.isCritical {
-                                Image(systemName: "exclamationmark.3")
-                                    .symbolVariant(.fill)
-                                    .foregroundColor(.red)
+                if items.isEmpty {
+                    ContentUnavailableView("No todos found", systemImage: "shippingbox", description: Text("Tap on New ToDo icon to generate todos"))
+                } else {
+                    ForEach(items) { item in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                
+                                if item.isCritical {
+                                    Image(systemName: "exclamationmark.3")
+                                        .symbolVariant(.fill)
+                                        .foregroundColor(.red)
+                                        .font(.largeTitle)
+                                        .bold()
+                                }
+                                
+                                Text(item.title)
                                     .font(.largeTitle)
                                     .bold()
+                                
+                                Text("\(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .shortened))")
+                                    .font(.callout)
+                                
+                                if let category = item.category {
+                                    Text(category.title)
+                                        .padding(8)
+                                        .foregroundStyle(Color.blue)
+                                        .bold()
+                                        .background(Color.blue.opacity(0.1))
+                                        .clipShape(.rect(cornerRadius: 8))
+                                }
                             }
+                            .onTapGesture(perform: {
+                                withAnimation {
+                                    editTodo = item
+                                }
+                            })
+                            Spacer()
                             
-                            Text(item.title)
-                                .font(.largeTitle)
-                                .bold()
+                            Button {
+                                withAnimation {
+                                    item.isCompleted.toggle()
+                                }
+                            } label: {
+                                
+                                Image(systemName: "checkmark")
+                                    .symbolVariant(.circle.fill)
+                                    .foregroundStyle(item.isCompleted ? .green : .gray)
+                                    .font(.largeTitle)
+                            }
+                            .buttonStyle(.plain)
                             
-                            Text("\(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .shortened))")
-                                .font(.callout)
                         }
                         
-                        Spacer()
                         
-                        Button {
-                            withAnimation {
-                                item.isCompleted.toggle()
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                withAnimation {
+                                    context.delete(item)
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                                    .symbolVariant(.fill)
                             }
-                        } label: {
-                            
-                            Image(systemName: "checkmark")
-                                .symbolVariant(.circle.fill)
-                                .foregroundStyle(item.isCompleted ? .green : .gray)
-                                .font(.largeTitle)
-                        }
-                        .buttonStyle(.plain)
-                        
-                    }
-                    .onTapGesture(perform: {
-                        withAnimation {
-                            editTodo = item
-                        }
-                    })
-                    
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            withAnimation {
-                                context.delete(item)
-                            }
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                                .symbolVariant(.fill)
                         }
                     }
                 }
+                
             }
             .navigationTitle("Daily todos")
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        showCreate.toggle()
+                        showCreateCategory.toggle()
                     }, label: {
                         Image(uiImage: .add)
                     })
                 }
             }
-            .sheet(isPresented: $showCreate,
+            .sheet(isPresented: $showCreateCategory,
+                   content: {
+                NavigationStack {
+                    GenerateCategoryView()
+                }
+            })
+            .sheet(isPresented: $showCreateTodo,
                    content: {
                 NavigationStack {
                     GenerateTodosView()
@@ -105,6 +120,22 @@ struct TodosListView: View {
                 .presentationDetents([.medium])
 
             }
+        }
+        .safeAreaInset(edge: .bottom,
+                       alignment: .leading) {
+            Button(action: {
+                showCreateTodo.toggle()
+            }, label: {
+                Label("New ToDo", systemImage: "plus")
+                    .bold()
+                    .font(.title2)
+                    .padding(8)
+                    .background(.gray.opacity(0.1),
+                                in: Capsule())
+                    .padding(.leading)
+                    .symbolVariant(.circle.fill)
+                
+            })
         }
     }
 }

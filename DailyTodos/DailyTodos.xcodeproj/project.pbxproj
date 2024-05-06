@@ -14,6 +14,7 @@
 		732ADDBE2BE7F76F0063D413 /* TodoItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDBD2BE7F76F0063D413 /* TodoItemModel.swift */; };
 		732ADDC02BE7F8080063D413 /* TodosListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDBF2BE7F8080063D413 /* TodosListView.swift */; };
 		732ADDC22BE800450063D413 /* UpdateTodosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDC12BE800450063D413 /* UpdateTodosView.swift */; };
+		732ADDCA2BE8F9900063D413 /* GenerateCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDC92BE8F9900063D413 /* GenerateCategoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		732ADDBD2BE7F76F0063D413 /* TodoItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemModel.swift; sourceTree = "<group>"; };
 		732ADDBF2BE7F8080063D413 /* TodosListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosListView.swift; sourceTree = "<group>"; };
 		732ADDC12BE800450063D413 /* UpdateTodosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTodosView.swift; sourceTree = "<group>"; };
+		732ADDC92BE8F9900063D413 /* GenerateCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateCategoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				732ADDAF2BE7F5E30063D413 /* GenerateTodosView.swift */,
+				732ADDC92BE8F9900063D413 /* GenerateCategoryView.swift */,
 				732ADDC12BE800450063D413 /* UpdateTodosView.swift */,
 				732ADDBF2BE7F8080063D413 /* TodosListView.swift */,
 			);
@@ -163,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				732ADDC22BE800450063D413 /* UpdateTodosView.swift in Sources */,
+				732ADDCA2BE8F9900063D413 /* GenerateCategoryView.swift in Sources */,
 				732ADDB02BE7F5E30063D413 /* GenerateTodosView.swift in Sources */,
 				732ADDAE2BE7F5E30063D413 /* DailyTodosApp.swift in Sources */,
 				732ADDC02BE7F8080063D413 /* TodosListView.swift in Sources */,
