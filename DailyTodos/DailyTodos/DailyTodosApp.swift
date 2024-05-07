@@ -9,10 +9,11 @@ import SwiftUI
 import SwiftData
 @main
 struct DailyTodosApp: App {
+    @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     var body: some Scene {
         WindowGroup {
             TodosListView()
-                .modelContainer(for: TodoItemModel.self)
         }
+        .modelContainer(SwiftDataContainer.create(isFirstLaunch: &isFirstLaunch))
     }
 }

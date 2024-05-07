@@ -15,6 +15,7 @@
 		732ADDC02BE7F8080063D413 /* TodosListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDBF2BE7F8080063D413 /* TodosListView.swift */; };
 		732ADDC22BE800450063D413 /* UpdateTodosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDC12BE800450063D413 /* UpdateTodosView.swift */; };
 		732ADDCA2BE8F9900063D413 /* GenerateCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDC92BE8F9900063D413 /* GenerateCategoryView.swift */; };
+		732ADDCE2BEA3F1F0063D413 /* SwiftDataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732ADDCD2BEA3F1F0063D413 /* SwiftDataContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		732ADDBF2BE7F8080063D413 /* TodosListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosListView.swift; sourceTree = "<group>"; };
 		732ADDC12BE800450063D413 /* UpdateTodosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTodosView.swift; sourceTree = "<group>"; };
 		732ADDC92BE8F9900063D413 /* GenerateCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateCategoryView.swift; sourceTree = "<group>"; };
+		732ADDCD2BEA3F1F0063D413 /* SwiftDataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				732ADDBB2BE7F7210063D413 /* View */,
 				732ADDB12BE7F5E60063D413 /* Assets.xcassets */,
 				732ADDB32BE7F5E60063D413 /* Preview Content */,
+				732ADDCD2BEA3F1F0063D413 /* SwiftDataContainer.swift */,
 			);
 			path = DailyTodos;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				732ADDB02BE7F5E30063D413 /* GenerateTodosView.swift in Sources */,
 				732ADDAE2BE7F5E30063D413 /* DailyTodosApp.swift in Sources */,
 				732ADDC02BE7F8080063D413 /* TodosListView.swift in Sources */,
+				732ADDCE2BEA3F1F0063D413 /* SwiftDataContainer.swift in Sources */,
 				732ADDBE2BE7F76F0063D413 /* TodoItemModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

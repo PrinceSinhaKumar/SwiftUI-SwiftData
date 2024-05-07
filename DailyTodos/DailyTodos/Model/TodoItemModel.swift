@@ -12,9 +12,19 @@ import SwiftData
 final class CategoryItemModel {
     @Attribute(.unique)
     var title: String
+    var type: String? = ""
     var todos: [TodoItemModel]?
     init(title: String = "") {
         self.title = title
+    }
+}
+extension CategoryItemModel {
+    static var defaultItem: [CategoryItemModel] {
+        let items = [
+            CategoryItemModel(title: "Study"),
+            CategoryItemModel(title: "Workout")
+        ]
+        return items
     }
 }
 
