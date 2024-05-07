@@ -11,7 +11,9 @@ import SwiftUI
 struct SaveApiImageInSwiftDataApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ProjectListView()
+                .modelContainer(for: [Products.self])
+
         }
     }
 }
