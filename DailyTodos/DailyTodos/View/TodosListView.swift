@@ -8,6 +8,24 @@
 import SwiftUI
 import SwiftData
 
+enum TodoSortOption: String, CaseIterable {
+    case title
+    case date
+    case category
+}
+extension TodoSortOption {
+    var systemImage: String {
+        switch self {
+        case .title:
+            return "textformat.size.larger"
+        case .date:
+            return "calendar"
+        case .category:
+            return "folder"
+        }
+    }
+}
+
 struct TodosListView: View {
     
     @Environment (\.modelContext) var context
@@ -15,13 +33,14 @@ struct TodosListView: View {
     @State private var showCreateCategory = false
     @State private var editTodo: TodoItemModel?
     @State private var searchText = ""
+    @State private var selectedTodoSortOption = TodoSortOption.title
     
     @Query private var items: [TodoItemModel]
     var filteredData: [TodoItemModel] {
         if searchText.isEmpty {
-            return items
+            return items.sort(on: selectedTodoSortOption)
         }
-        return items.filter({($0.title.lowercased().contains(searchText.lowercased())) || $0.category?.title.lowercased().contains(searchText.lowercased()) ?? false })
+        return items.filter({($0.title.lowercased().contains(searchText.lowercased())) || $0.category?.title.lowercased().contains(searchText.lowercased()) ?? false }).sort(on: selectedTodoSortOption)
     }
     
     var body: some View {
@@ -79,7 +98,6 @@ struct TodosListView: View {
                         
                     }
                     
-                    
                     .swipeActions {
                         Button(role: .destructive) {
                             withAnimation {
@@ -95,6 +113,7 @@ struct TodosListView: View {
                 
             }
             .navigationTitle("Daily todos")
+            .animation(.easeOut, value: filteredData)
             .searchable(text: $searchText, prompt: "Search todos/categories")
             .overlay {
                 if filteredData.isEmpty {
@@ -102,12 +121,27 @@ struct TodosListView: View {
                 }
             }
             .toolbar {
-                ToolbarItem {
+                ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(action: {
                         showCreateCategory.toggle()
                     }, label: {
-                        Image(uiImage: .add)
+                        Image(systemName: "plus")
                     })
+                }
+                
+                ToolbarItemGroup(placement: .topBarTrailing){
+                    Menu {
+                        Picker("", selection: $selectedTodoSortOption) {
+                            ForEach(TodoSortOption.allCases, id: \.rawValue) { option in
+                                Label(option.rawValue.capitalized, image: option.systemImage)
+                                    .tag(option)
+                            }
+                        }
+                        .labelsHidden()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .symbolVariant(.circle)
+                    }
                 }
             }
             .sheet(isPresented: $showCreateCategory,
@@ -138,7 +172,7 @@ struct TodosListView: View {
             Button(action: {
                 showCreateTodo.toggle()
             }, label: {
-                Label("New ToDo", systemImage: "plus")
+                Label("Todos", systemImage: "plus")
                     .bold()
                     .font(.title2)
                     .padding(8)
@@ -147,6 +181,22 @@ struct TodosListView: View {
                     .padding(.leading)
                     .symbolVariant(.circle.fill)
                 
+            })
+        }
+    }
+}
+private extension [TodoItemModel] {
+    func sort(on option: TodoSortOption) -> Self {
+        switch option {
+        case .title:
+            return self.sorted(by: { $0.title < $1.title})
+        case .date:
+            return self.sorted(by: { $0.timestamp < $1.timestamp})
+        case .category:
+            return self.sorted(by: {
+                guard let titleFirst = $0.category?.title,
+                      let titleSecond = $1.category?.title else { return false }
+                return titleFirst < titleSecond
             })
         }
     }
