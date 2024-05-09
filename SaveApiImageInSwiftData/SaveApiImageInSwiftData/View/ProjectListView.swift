@@ -13,12 +13,6 @@ struct ProjectListView: View {
     @Environment (\.modelContext) var context
     @Query private var listData: [Products]
     
-    let outerListData = [
-        OuterListItem(title: "List A", innerItems: ["Item 1", "Item 2", "Item 3"]),
-        OuterListItem(title: "List B", innerItems: ["Item 4", "Item 5"]),
-        OuterListItem(title: "List C", innerItems: ["Item 6"])
-    ]
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -46,10 +40,12 @@ struct ProjectListView: View {
             }
         }
         .task {
-            do {
-               try await fetchDataFromApi()
-            } catch {
-                print(error)
+            if listData.isEmpty {
+                do {
+                   try await fetchDataFromApi()
+                } catch {
+                    print(error)
+                }
             }
         }
         
@@ -92,11 +88,26 @@ struct ListHeader: View {
 
     var body: some View {
         HStack(alignment: .top) {
-            Image(systemName: "plus")
-            Text(row.title)
+            AsyncImage(url: URL(string: row.thumbnail)) { image in
+                image.image?
+                    .resizable()
+                    .scaledToFill()
+                    .aspectRatio(1.2, contentMode: .fit)
+                    .frame(width: 50)
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+            }
+
+            VStack {
+                Spacer()
+                Text(row.title)
+                    .font(.headline)
+                .fontWeight(.semibold)
+                Spacer()
+            }
             Spacer()
         }
         .padding([.top,.leading])
+        .padding(.bottom, 5)
     }
 }
 
@@ -110,10 +121,10 @@ struct ListRow: View {
                     AsyncImage(url: URL(string: item)!) { image in
                         image
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: 120)
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
                             .clipShape(.rect(cornerRadius: 12))
-                            .shadow(color: .gray.opacity(0.2),radius: 10, x: 0, y: -6)
                             .padding(.top, 0)
                     } placeholder: {
                         VStack {
@@ -133,4 +144,8 @@ struct ListRow: View {
         }
         .scrollIndicators(.hidden)
     }
+    
+    
 }
+
+
