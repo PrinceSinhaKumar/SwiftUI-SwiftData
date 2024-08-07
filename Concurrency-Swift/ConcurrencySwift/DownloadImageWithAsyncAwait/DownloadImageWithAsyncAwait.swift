@@ -37,6 +37,19 @@ class DownloadImageManager {
             .mapError({ $0 })
             .eraseToAnyPublisher()
     }
+    
+    func getImageWithAsyncAwait() async throws -> UIImage? {
+        guard let url = URL(string: "https://picsum.photos/200") else {
+            throw URLError(.badURL)
+        }
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            return responseHandler(data, response)
+        } catch let error {
+            throw error
+        }
+    }
+    
 }
 
 class DownloadImageWithAsyncAwaitViewModel: ObservableObject {
@@ -44,28 +57,38 @@ class DownloadImageWithAsyncAwaitViewModel: ObservableObject {
     @Published var image: UIImage?
     let imageManager = DownloadImageManager()
     var cancelable = Set<AnyCancellable>()
-    func fetchImage() {
-       /* imageManager.getImageWithEscapingClouser { [weak self] image, error in
-            if let image {
-                self?.image = image
-            }
-            print(error?.localizedDescription ?? "")
-        } */
+    
+    func fetchImage() async {
+        //using escaping clouser
+        /* imageManager.getImageWithEscapingClouser { [weak self] image, error in
+         if let image {
+         self?.image = image
+         }
+         print(error?.localizedDescription ?? "")
+         } */
         
-        imageManager.getImageWithCombine()
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    print(error)
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] image in
-                self?.image = image
-            }
-            .store(in: &cancelable)
-
+        //using combine
+        /* imageManager.getImageWithCombine()
+         .receive(on: DispatchQueue.main)
+         .sink { completion in
+         switch completion {
+         case .failure(let error):
+         print(error)
+         default:
+         break
+         }
+         } receiveValue: { [weak self] image in
+         self?.image = image
+         }
+         .store(in: &cancelable)
+         */
+        
+        //using async-await'
+        let image = try? await imageManager.getImageWithAsyncAwait()
+        await MainActor.run {
+            self.image = image
+        }
+        
     }
 }
 
@@ -81,7 +104,9 @@ struct DownloadImageWithAsyncAwait: View {
             }
         }
         .onAppear(perform: {
-            viewModel.fetchImage()
+            Task {
+                await viewModel.fetchImage()
+            }
         })
     }
 }
