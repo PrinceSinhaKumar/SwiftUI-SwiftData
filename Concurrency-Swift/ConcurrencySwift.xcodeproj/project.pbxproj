@@ -14,6 +14,7 @@
 		7385F8952C5E8F2200F1B861 /* LoginDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385F8942C5E8F2200F1B861 /* LoginDataModel.swift */; };
 		7385F8972C5E90F900F1B861 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385F8962C5E90F900F1B861 /* LoginModel.swift */; };
 		7385F89A2C5EAEBF00F1B861 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7385F8992C5EAEBF00F1B861 /* LoginViewModel.swift */; };
+		F40CA04E2C63E6AD007AC0F8 /* DownloadImageWithAsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40CA04D2C63E6AD007AC0F8 /* DownloadImageWithAsyncAwait.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		7385F8942C5E8F2200F1B861 /* LoginDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataModel.swift; sourceTree = "<group>"; };
 		7385F8962C5E90F900F1B861 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		7385F8992C5EAEBF00F1B861 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F40CA04D2C63E6AD007AC0F8 /* DownloadImageWithAsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImageWithAsyncAwait.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +60,8 @@
 			isa = PBXGroup;
 			children = (
 				7385F8852C5E8B8000F1B861 /* ConcurrencySwiftApp.swift */,
-				7385F8872C5E8B8000F1B861 /* ContentView.swift */,
-				7385F8982C5EAE3500F1B861 /* ViewModel */,
-				7385F8932C5E8EE800F1B861 /* Model */,
+				F40CA04C2C63E681007AC0F8 /* DownloadImageWithAsyncAwait */,
+				F40CA04B2C63E662007AC0F8 /* LoginWithAsyncAwait */,
 				7385F8892C5E8B8400F1B861 /* Assets.xcassets */,
 				7385F88B2C5E8B8400F1B861 /* Preview Content */,
 			);
@@ -90,6 +91,24 @@
 				7385F8992C5EAEBF00F1B861 /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F40CA04B2C63E662007AC0F8 /* LoginWithAsyncAwait */ = {
+			isa = PBXGroup;
+			children = (
+				7385F8872C5E8B8000F1B861 /* ContentView.swift */,
+				7385F8982C5EAE3500F1B861 /* ViewModel */,
+				7385F8932C5E8EE800F1B861 /* Model */,
+			);
+			path = LoginWithAsyncAwait;
+			sourceTree = "<group>";
+		};
+		F40CA04C2C63E681007AC0F8 /* DownloadImageWithAsyncAwait */ = {
+			isa = PBXGroup;
+			children = (
+				F40CA04D2C63E6AD007AC0F8 /* DownloadImageWithAsyncAwait.swift */,
+			);
+			path = DownloadImageWithAsyncAwait;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +184,7 @@
 				7385F8882C5E8B8000F1B861 /* ContentView.swift in Sources */,
 				7385F8972C5E90F900F1B861 /* LoginModel.swift in Sources */,
 				7385F8952C5E8F2200F1B861 /* LoginDataModel.swift in Sources */,
+				F40CA04E2C63E6AD007AC0F8 /* DownloadImageWithAsyncAwait.swift in Sources */,
 				7385F89A2C5EAEBF00F1B861 /* LoginViewModel.swift in Sources */,
 				7385F8862C5E8B8000F1B861 /* ConcurrencySwiftApp.swift in Sources */,
 			);
