@@ -16,15 +16,20 @@ struct ContentView: View {
             NavigationStack {
                 List {
                     ForEach(viewModel.coinsData) { coin in
-                        CoinList(coin: coin)
-                            .padding([.top, .bottom], 3)
-                            .onAppear {
-                                if viewModel.coinsData.last?.id == coin.id {
-                                    Task {
-                                        await viewModel.fetchLiveCoinPrice()
+                        NavigationLink {
+                            CoinDetailViewControllerRepersentable(coinData: coin)
+                        } label: {
+                            CoinList(coin: coin)
+                                .padding([.top, .bottom], 3)
+                                .onAppear {
+                                    if viewModel.coinsData.last?.id == coin.id {
+                                        Task {
+                                            await viewModel.fetchLiveCoinPrice()
+                                        }
                                     }
                                 }
-                            }
+                        }
+                        
                     }
                 }
                 .refreshable(action: {
@@ -87,4 +92,16 @@ struct CoinList: View {
             })
         }
     }
+}
+import UIKit
+struct CoinDetailViewControllerRepersentable: UIViewControllerRepresentable {
+    
+    let coinData: CoinDataModel
+    func makeUIViewController(context: Context) -> some UIViewController {
+        let coinDetailViewModel = CoinDetailViewModel(coinData: coinData)
+        let vc = UIStoryboard(name: "CoinDetailStoryboard", bundle: nil).instantiateViewController(withIdentifier: "CoinDetailViewController") as! CoinDetailViewController
+        vc.viewModel = coinDetailViewModel
+        return vc
+    }
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) { }
 }
