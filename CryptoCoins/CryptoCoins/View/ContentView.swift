@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var viewModel = CoinViewModel(model: CoinModel())
     @State var showAlert = false
-    var data: [String] = ["aaa","aaa","aaa","aaa"]
     var body: some View {
         VStack {
             NavigationStack {
