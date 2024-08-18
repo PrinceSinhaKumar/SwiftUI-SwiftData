@@ -6,18 +6,12 @@
 //
 
 import Foundation
-
 protocol ListViewModel: ObservableObject {
     var model: FactoryModel { get set }
 }
 
-struct ListSection {
-    var videos: VideoList?
-    var photos: PhotoList?
-}
 class EntertenmentViewModel: ListViewModel {
-    @Published var dataList: ListSection = ListSection()
-
+    
     var model: FactoryModel
     
     init(model: FactoryModel) {
@@ -25,14 +19,13 @@ class EntertenmentViewModel: ListViewModel {
     }
     
     @MainActor
-    func fetchList(modelListType: ModelType) async throws {
+    func fetchList(modelListType: ModelType) async throws -> Decodable {
         let listModel = model.createListModel(type: modelListType)
         switch modelListType {
         case .video:
             if let videListModel = listModel as? VideoListModel {
                 do {
-                    dataList.videos = try await videListModel.fetchListService()
-                    print("Videos \n \(dataList)")
+                    return try await videListModel.fetchListService()
                 } catch let error {
                     throw error
                 }
@@ -40,13 +33,13 @@ class EntertenmentViewModel: ListViewModel {
         case .list:
             if let photoListModel = listModel as? PhotoListModel {
                 do {
-                    dataList.photos = try await photoListModel.fetchListService()
-                    print("photos \n \(dataList)")
+                    return try await photoListModel.fetchListService()
                 } catch let error {
                     throw error
                 }
             }
         }
+        throw ErrorHandler.InvaildeResponse
     }
     
 }

@@ -28,7 +28,7 @@ final class NetworkManager {
                 throw ErrorHandler.InvaildeResponse
             }
             let decorder = JSONDecoder()
-            decorder.keyDecodingStrategy = .convertFromSnakeCase
+            //decorder.keyDecodingStrategy = .convertFromSnakeCase
             let jsonData = try decorder.decode(D.self, from: data)
             return jsonData
         } catch let error {
